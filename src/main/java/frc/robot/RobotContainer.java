@@ -6,12 +6,15 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.XboxController.Button;
 import frc.robot.commands.Conduire;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.Gober;
 import frc.robot.subsystems.BasePilotable;
 import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.Gobeur;
 import edu.wpi.first.wpilibj2.command.Command;
-
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
@@ -25,6 +28,8 @@ public class RobotContainer {
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
 
   private final BasePilotable basePilotable = new BasePilotable();
+
+  private final Gobeur gobeur = new Gobeur();
 
   private final XboxController controller = new XboxController(0);
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -42,7 +47,13 @@ basePilotable.setDefaultCommand(new Conduire(basePilotable, controller::getLeftY
    * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
-  private void configureButtonBindings() {}
+  private void configureButtonBindings() {
+
+
+    new JoystickButton(controller, Button.kB.value).whileHeld(new Gober(gobeur));
+  }
+
+
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
@@ -50,6 +61,9 @@ basePilotable.setDefaultCommand(new Conduire(basePilotable, controller::getLeftY
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
+
+
+
     // An ExampleCommand will run in autonomous
     return m_autoCommand;
   }
